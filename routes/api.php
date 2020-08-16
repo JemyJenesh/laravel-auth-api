@@ -23,3 +23,7 @@ Route::prefix('password')->group(function () {
   Route::post('email', 'PasswordResetController@sendEmail');
   Route::post('reset', 'PasswordResetController@reset');
 });
+
+Route::middleware(['auth:sanctum'])->group(function () {
+  Route::apiResource('/users', 'UserController');
+});

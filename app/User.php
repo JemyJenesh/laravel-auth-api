@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Role;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -24,7 +25,7 @@ class User extends Authenticatable {
    * @var array
    */
   protected $hidden = [
-    'password', 'remember_token',
+    'password', 'remember_token', 'role_id',
   ];
 
   /**
@@ -35,4 +36,14 @@ class User extends Authenticatable {
   protected $casts = [
     'email_verified_at' => 'datetime',
   ];
+
+  public function scopeWithRole($query) {
+    return $query->addSelect(['role' => Role::select('name')
+        ->whereColumn('id', 'users.role_id'),
+    ]);
+  }
+
+  public function role() {
+    return $this->belongsTo(Role::class);
+  }
 }
