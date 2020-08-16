@@ -1,12 +1,12 @@
 ## Laravel auth api with password resets using sanctum
 
-1. Auth
-   Register
-   Login
+1. Auth:
+   Register,
+   Login,
    Logout
 
-2. Password Reset
-   Password reset email
+2. Password Reset:
+   Password reset email,
    Change password
 
 Setup steps
