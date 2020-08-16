@@ -61,7 +61,7 @@ class PasswordResetController extends Controller {
       ], 404);
     }
 
-    if (Carbon::parse($passwordReset->updated_at)->addMinutes(1)->isPast()) {
+    if (Carbon::parse($passwordReset->updated_at)->addMinutes(30)->isPast()) {
       $passwordReset->delete();
       return response()->json([
         'message' => 'The password reset token has expired.',
