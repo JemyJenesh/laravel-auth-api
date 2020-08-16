@@ -9,7 +9,7 @@
    Password reset email,
    Change password
 
-# Setup steps
+### Setup steps
 
 1. composer install
 2. setup .env
