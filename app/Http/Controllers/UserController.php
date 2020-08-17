@@ -33,7 +33,15 @@ class UserController extends Controller {
    */
   public function store(Request $request) {
     $this->authorize('admin');
-    return User::withRole()->paginate(10);
+
+    $validatedData = $request->validate([
+      'name' => 'required|min:3',
+      'email' => 'required|email|unique:users',
+      'password' => 'required|min:8',
+    ]);
+
+    $user = User::create($validatedData);
+    return response(['user' => $user]);
   }
 
   /**
@@ -43,7 +51,7 @@ class UserController extends Controller {
    * @return \Illuminate\Http\Response
    */
   public function show(User $user) {
-    //
+    return response(['user' => $user]);
   }
 
   /**
@@ -54,8 +62,14 @@ class UserController extends Controller {
    * @return \Illuminate\Http\Response
    */
   public function update(Request $request, User $user) {
-    $this->authorize('delete', $user);
-    return User::withRole()->paginate(10);
+    $this->authorize('update', $user);
+    $validatedData = $request->validate([
+      'name' => 'required|min:3',
+      'email' => 'required|email|unique:users,email,' . $user->id,
+    ]);
+    $user->update($validatedData);
+    $user->touch();
+    return response(['user' => $user->fresh()]);
   }
 
   /**
